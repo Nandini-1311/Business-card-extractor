@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card Intake — Lead Extraction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="deskframe">
+
+  <header class="topbar">
+    <div class="stamp">
+      <span class="stamp-ring">
+        <svg viewBox="0 0 60 60" width="34" height="34" aria-hidden="true">
+          <circle cx="30" cy="30" r="27" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <path d="M18 32 L26 40 L42 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <div class="stamp-text">
+        <h1>Card Intake</h1>
+        <p>Bulk upload business cards for lead extraction</p>
+      </div>
+    </div>
+    <div class="tally" id="tally">
+      <span class="tally-num" id="tally-count">0</span>
+      <span class="tally-label">cards on file</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="tray" id="dropzone" tabindex="0" role="button"
+              aria-label="Upload business cards. Click or drag files here.">
+      <input type="file" id="file-input" multiple accept="image/png,image/jpeg,image/webp,image/heic,image/heif" hidden>
+
+      <div class="tray-inner">
+        <div class="card-fan" aria-hidden="true">
+          <div class="fan-card fan-1"></div>
+          <div class="fan-card fan-2"></div>
+          <div class="fan-card fan-3"></div>
+        </div>
+        <p class="tray-title">Drop a stack of cards here</p>
+        <p class="tray-sub">or click to browse — JPG, PNG, WEBP, HEIC · up to 15&nbsp;MB each · 50 per batch</p>
+      </div>
+    </section>
+
+    <div class="queue" id="queue" hidden>
+      <div class="queue-head">
+        <h2>Uploading batch</h2>
+        <span id="queue-progress">0 / 0</span>
+      </div>
+      <ul id="queue-list"></ul>
+    </div>
+
+    <div class="banner" id="banner" hidden></div>
+
+    <section class="ledger">
+      <div class="ledger-head">
+        <h2>Received cards</h2>
+        <div class="ledger-actions">
+          <input type="search" id="search" placeholder="Filter by file name…">
+          <a href="/api/export" download="business_cards.xlsx"
+     style="display:inline-block;margin-left:.75rem;padding:.55rem .9rem;border-radius:6px;background:#d8c8a4;color:#1a1d24;font-weight:600;font-size:.9rem;text-decoration:none">
+    Download Excel
+  </a>
+        </div>
+      </div>
+
+      <div class="rolodex" id="rolodex"></div>
+
+      <p class="empty-state" id="empty-state">
+        Nothing uploaded yet. Drop your first batch above. Each card is read automatically,
+        and its details appear in the table below.
+      </p>
+    </section>
+
+    <!-- Extracted details table + Download Excel button (built by /static/extraction.js) -->
+    <div id="extraction-panel"></div>
+  </main>
+
+  <footer class="footnote">
+    <span>Status key:</span>
+    <span class="dot dot-uploaded"></span> uploaded, not read yet
+    <span class="dot dot-extracted"></span> details extracted
+    <span class="dot dot-rejected"></span> rejected or failed
+  </footer>
+
+</div>
+
+<template id="card-template">
+  <article class="rcard">
+    <button class="rcard-remove" title="Remove card" aria-label="Remove card">&times;</button>
+    <div class="rcard-tab"></div>
+    <div class="rcard-thumb">
+      <img alt="">
+    </div>
+    <div class="rcard-meta">
+      <p class="rcard-name"></p>
+      <p class="rcard-sub"></p>
+    </div>
+  </article>
+</template>
+
+<script src="/static/script.js"></script>
+<script src="/static/extraction.js"></script>
+</body>
+</html>
